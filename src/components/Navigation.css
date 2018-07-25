@@ -1,0 +1,10 @@
+.ul{
+    float:right;
+    padding-left:20px;
+    list-style: none;
+}
+
+.arrange{
+    padding:1px;
+    background-color: white;
+}

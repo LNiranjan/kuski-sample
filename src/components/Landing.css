@@ -1,0 +1,27 @@
+.landing{
+    background:url('dri.png') no-repeat #999; 
+    height:900px;
+    margin:0px;
+    padding: 0px !important;
+}
+
+.paragraph{
+    color:rgb(230, 100, 14);
+    font-style:oblique;
+    font-size:70px;
+}
+
+.span{
+    color:rgb(55, 56, 51);
+    font-size:40px
+}
+
+.paragraph1{
+    color:white;
+    font-size:35px;
+}
+
+.comingsoon{
+    color:rgb(230, 100, 14);
+    font-size:60px;
+}
