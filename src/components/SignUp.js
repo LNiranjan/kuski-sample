@@ -5,6 +5,7 @@ import './SignUp.css';
 
 import { auth, db } from '../firebase';
 import * as routes from '../constants/routes';
+import { FormGroup,Form,Button,Input} from 'reactstrap';
 
 const SignUpPage = ({ history }) =>
   <div>
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
     email: '',
     passwordOne: '',
     passwordTwo: '',
+    Phonenum:'',
     error: null,
   };
 
@@ -34,19 +36,18 @@ class SignUpForm extends Component {
     const {
         username,
         email,
+        Phonenum,
         passwordOne,
       } = this.state;
-
       const {
         history,
       } = this.props;
-  
       auth.doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
           db.doCreateUser(authUser.user.uid, username, email)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
-            history.push(routes.LANDING);
+            this.history.push(routes.LANDING);
           })
           .catch(error => {
             this.setState(byPropKey('error', error));
@@ -55,58 +56,47 @@ class SignUpForm extends Component {
         .catch(error => {
           this.setState(byPropKey('error', error));
         });
-  
       event.preventDefault();
-  }
-
-  render() {
-    const {
-        username,
-        email,
-        passwordOne,
-        passwordTwo,
-        error,
-      } = this.state;
+    }
+    render() {
+      const {
+          username,
+          email,
+          passwordOne,
+          passwordTwo,
+          Phonenum,
+          error,
+        } = this.state;
 
       const isInvalid =
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
-      username === '';
-
-    return (
-      <form onSubmit={this.onSubmit} className="form">
-        <table align="center">
-          <tr>
-            <td> Name </td>
-            <td> <input value={username} onChange={event => this.setState(byPropKey('username', event.target.value))} type="text" className="text" size="50"/></td>
-          </tr>
-          <br />
-          <tr>
-            <td> Email </td>
-            <td> <input value={email} onChange={event => this.setState(byPropKey('email', event.target.value))} type="text" className="text" size="50"/></td>
-          </tr>
-          <br />
-          <tr>
-            <td> Password </td>
-            <td> <input value={passwordOne} onChange={event => this.setState(byPropKey('passwordOne', event.target.value))} type="password" className="text" size="50"/></td>
-          </tr>
-          <br />
-          <tr>
-            <td> Confirm Password </td>
-            <td> <input value={passwordTwo} onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))} type="password" className="text" size="50"/></td>
-          </tr>
-          <br />
-          <tr>
-            <td colspan="2"> <button disabled={isInvalid} type="submit" className="button">Sign Up </button></td>
-          </tr>
-          <br />
-          <tr>
-            <td colspan="2"> { error && <p>{error.message}</p> }</td>
-          </tr>
-        </table>
-      </form>
-    );
+      username === ''||
+      Phonenum === '';
+      return (
+        <Form onSubmit={this.onSubmit} >
+          <FormGroup>
+             <Input value={username} onChange={event => this.setState(byPropKey('username', event.target.value))} type="text" placeholder="Username" />
+          </FormGroup>
+          <FormGroup>
+            <Input value={email} onChange={event => this.setState(byPropKey('email', event.target.value))} type="text" placeholder="Email"/>
+          </FormGroup>
+          <FormGroup>
+              <Input value={passwordOne} onChange={event => this.setState(byPropKey('passwordOne', event.target.value))} type="password" placeholder="Password"/>
+          </FormGroup>
+          <FormGroup>
+             <Input value={passwordTwo} onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))} type="password" placeholder="ConfirmPassword"/>
+          </FormGroup>
+          <FormGroup>
+             <Input value={Phonenum} onChange={event => this.setState(byPropKey('Phonenum', event.target.value))} type="number" placeholder="phonenumber"/>
+          </FormGroup>
+          <FormGroup>
+            <Button disabled={isInvalid} block>Submit</Button>
+          </FormGroup>
+          { error && <p>{error.message}</p> }
+        </Form>
+      );
   }
 }
 
@@ -116,9 +106,7 @@ const SignUpLink = () =>
     {' '}
     <Link to={routes.SIGN_UP}>Sign Up</Link>
   </p>
-
 export default withRouter(SignUpPage);
-
 export {
   SignUpForm,
   SignUpLink,

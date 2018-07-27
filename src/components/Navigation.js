@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import SignOutButton from './SignOut';
+import { auth } from '../firebase';
+import{Collapse,Navbar,NavbarToggler,NavbarBrand,Nav,NavItem,NavLink} from 'reactstrap';
 import AuthUserContext from './AuthUserContext';
-import * as routes from '../constants/routes';
 import './Navigation.css';
 
 const Navigation = () =>
@@ -13,17 +12,42 @@ const Navigation = () =>
     }
   </AuthUserContext.Consumer>
   const NavigationAuth = () =>
-  <ul className="arrange">
-    {/* <li className="ul"><Link to={routes.LANDING}>Landing</Link></li> */}
-    <li className="ul"><Link to={routes.HOME}>Home</Link></li>
-    <li className="ul"><Link to={routes.ACCOUNT}>Account</Link></li>
-    <li className="ul"><SignOutButton /></li>
-  </ul>
+  <div>
+    <Navbar color="light"  light expand="md">
+      <NavbarBrand className="nav" href="/">Kuski</NavbarBrand>
+      <NavbarToggler />
+      <Collapse navbar>
+        <Nav  className="ml-auto" navbar>
+          <NavItem>
+            <NavLink href="./Account">Account</NavLink>
+          </NavItem>
+          <NavItem >
+            <NavLink href="./Home">Home</NavLink>
+          </NavItem>
+          <NavItem>
+          <NavLink href="/" onClick={auth.doSignOut}>SignOut</NavLink>
+          </NavItem>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  </div>
 
 const NavigationNonAuth = () =>
-  <ul className="arrange">
-    <li className="ul"><Link to={routes.SIGN_UP}>SignUp</Link></li>
-    <li className="ul"><Link to={routes.SIGN_IN}>SignIn</Link></li>
-  </ul>
+<div>
+    <Navbar color="light"  light expand="md">
+      <NavbarBrand className="nav" href="/">Kuski</NavbarBrand>
+      <NavbarToggler />
+      <Collapse navbar>
+        <Nav  className="ml-auto" navbar> 
+          <NavItem >
+            <NavLink href="./signin">SignIn</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="./signup">SignUp</NavLink>
+          </NavItem>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  </div>
 
 export default Navigation;

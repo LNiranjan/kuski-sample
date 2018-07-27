@@ -1,6 +1,6 @@
 .landing{
-    background:url('dri.png') no-repeat #999; 
-    height:900px;
+    background: url(kuski.png) no-repeat; 
+    height:600px;
     margin:0px;
     padding: 0px !important;
 }
@@ -24,4 +24,7 @@
 .comingsoon{
     color:rgb(230, 100, 14);
     font-size:60px;
+}
+.page{
+    background-color: #999;
 }

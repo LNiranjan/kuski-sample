@@ -5,7 +5,7 @@ class Map extends Component {
    render() {
     const MapWithADirectionsRenderer = compose(
         withProps({
-          googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyB4G-Gp1Ghho4vE1s5XYXuHrciA49R8bbI&v=3.exp&libraries=geometry,drawing,places",
+          googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMCLvyC-CInjCWMcz6suKSjSKwop-h-mg&v=3.exp&libraries=geometry,drawing,places",
           loadingElement: <div style={{ height: `100%` }} />,
           containerElement: <div style={{ height: `600px` }} />,
           mapElement: <div style={{ height: `100%` }} />,
@@ -15,10 +15,9 @@ class Map extends Component {
         lifecycle({
           componentDidMount() {
             const DirectionsService = new window.google.maps.DirectionsService();
-      
             DirectionsService.route({
-              origin: new window.google.maps.LatLng(17.4361160, 78.4440140),
-              destination: new window.google.maps.LatLng(28.7041, 77.1025),
+              origin: new window.google.maps.LatLng(17.255884, 78.337110),
+              destination: new window.google.maps.LatLng(17.43811, 78.39717),
               travelMode: window.google.maps.TravelMode.DRIVING,
             }, (result, status) => {
               if (status === window.google.maps.DirectionsStatus.OK) {
