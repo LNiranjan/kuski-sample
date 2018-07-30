@@ -92,7 +92,7 @@ class SignUpForm extends Component {
              <Input value={Phonenum} onChange={event => this.setState(byPropKey('Phonenum', event.target.value))} type="number" placeholder="phonenumber"/>
           </FormGroup>
           <FormGroup>
-            <Button disabled={isInvalid} block>Submit</Button>
+            <Button disabled={isInvalid} color="primary" block>Submit</Button>
           </FormGroup>
           { error && <p>{error.message}</p> }
         </Form>

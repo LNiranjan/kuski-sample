@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Form, FormGroup, Input, Button} from 'reactstrap';
+
 import { auth } from '../firebase';
 
 const byPropKey = (propertyName, value) => () => ({
@@ -45,25 +47,31 @@ class PasswordChangeForm extends Component {
       passwordOne === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value={passwordOne}
-          onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
-          type="password"
-          placeholder="New Password"
-        />
-        <input
-          value={passwordTwo}
-          onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
-          type="password"
-          placeholder="Confirm New Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+      <Form onSubmit={this.onSubmit}>
+        <FormGroup>
+          <Input
+            value={passwordOne}
+            onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
+            type="password"
+            placeholder="New Password"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            value={passwordTwo}
+            onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
+            type="password"
+            placeholder="Confirm New Password"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Button disabled={isInvalid} color="primary" block type="submit">
+            Reset My Password
+          </Button>
+        </FormGroup>
 
         { error && <p>{error.message}</p> }
-      </form>
+      </Form>
     );
   }
 }
