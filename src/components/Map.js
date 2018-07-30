@@ -1,5 +1,6 @@
 import { compose, withProps, lifecycle } from "recompose"
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps';
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
@@ -48,7 +49,7 @@ class Map extends Component {
                 const nextMarkers = places.map(place => ({
                   position: place.geometry.location,
                 }));
-                const nextCenter = this.map.get(nextMarkers, '0.position', this.state.center);
+                const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
       
                 this.setState({
                   center: nextCenter,
@@ -75,7 +76,7 @@ class Map extends Component {
           >
             <input
               type="text"
-              placeholder="Customized your placeholder"
+              placeholder="Enter Your Location"
               style={{
                 boxSizing: `border-box`,
                 border: `1px solid transparent`,
