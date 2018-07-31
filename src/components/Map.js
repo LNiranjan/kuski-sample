@@ -1,10 +1,20 @@
 import { compose, withProps, lifecycle } from "recompose"
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import {geolocated} from 'react-geolocated';
+
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
+
 class Map extends Component {
+  state={
+    bounds: null,
+    center: {
+        lat: 17.385, lng: 78.4867
+    },
+    markers: []
+  }
    render() {
     const MapWithADirectionsRenderer = compose(
         withProps({
@@ -49,13 +59,23 @@ class Map extends Component {
                 const nextMarkers = places.map(place => ({
                   position: place.geometry.location,
                 }));
+                this.setState({
+                  center: {
+                    lat: nextMarkers[0].position.lat(),
+                    lng: nextMarkers[0].position.lng()
+                  }
+                })
+                console.log(this.state.center)
                 const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
-      
+                console.log(nextCenter)
                 this.setState({
                   center: nextCenter,
                   markers: nextMarkers,
                 });
                 // refs.map.fitBounds(bounds);
+                console.log(this.state.center)
+                console.log(refs);
+                {new window.google.maps.LatLng(this.state.center.lat(), this.state.center.lng())}
               },
             })
           },
@@ -65,9 +85,9 @@ class Map extends Component {
       )(props =>
         <GoogleMap
           defaultZoom={10}
-          defaultCenter={new window.google.maps.LatLng(17.3850, 78.4867)}
+          defaultCenter={new window.google.maps.LatLng(this.state.center.lat, this.state.center.lng)}
         >
-          {props.directions && <DirectionsRenderer directions={props.directions} />}
+         
           <SearchBox
             ref={props.onSearchBoxMounted}
             bounds={props.bounds}
@@ -93,21 +113,29 @@ class Map extends Component {
             />
           </SearchBox>
           {props.markers.map((marker, index) =>
-            <Marker key={index} position={marker.position} />
-          )}
+          <Marker key={index} position={marker.position} /> 
+         )}
         </GoogleMap>
       );
       
    
    return(
-      <div>
-        <MapWithADirectionsRenderer
+     !this.props.isGeolocationAvailable
+      ? <div>Your browser does not support Geolocation</div>
+      : !this.props.isGeolocationEnabled
+        ? <div>Geolocation is not enabled</div>
+        : this.props.coords
+          ? <table>
+            <tbody>
+              <tr><td>latitude</td><td>{this.props.coords.latitude}</td></tr>
+              <tr><td>longitude</td><td>{this.props.coords.longitude}</td></tr>
+            </tbody>
+          </table>
+          : <div><MapWithADirectionsRenderer
           containerElement={ <div style={{ height: `800px`, width: '100%' }} /> }
           mapElement={ <div style={{ height: `100%` }} /> }
           
-        />
-        
-      </div>
+        /></div>
    );
    }
 };
