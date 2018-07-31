@@ -2,7 +2,7 @@ import { compose, withProps, lifecycle } from "recompose"
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import {geolocated} from 'react-geolocated';
+
 
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
@@ -120,22 +120,14 @@ class Map extends Component {
       
    
    return(
-     !this.props.isGeolocationAvailable
-      ? <div>Your browser does not support Geolocation</div>
-      : !this.props.isGeolocationEnabled
-        ? <div>Geolocation is not enabled</div>
-        : this.props.coords
-          ? <table>
-            <tbody>
-              <tr><td>latitude</td><td>{this.props.coords.latitude}</td></tr>
-              <tr><td>longitude</td><td>{this.props.coords.longitude}</td></tr>
-            </tbody>
-          </table>
-          : <div><MapWithADirectionsRenderer
+      <div>
+        <MapWithADirectionsRenderer
           containerElement={ <div style={{ height: `800px`, width: '100%' }} /> }
           mapElement={ <div style={{ height: `100%` }} /> }
           
-        /></div>
+        />
+        
+      </div>
    );
    }
 };
