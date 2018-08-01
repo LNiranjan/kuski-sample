@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 import withAuthorization from './withAuthorization';
 import { db } from '../firebase';
-import Map from './Map';
+// import Map from './Map';
+// import GoogleMap from './googlemap';
+import Demo from './location';
 
 class HomePage extends Component {
   constructor(props) {
@@ -25,21 +27,22 @@ class HomePage extends Component {
       <div>
         <h1>Home</h1>
         {/* <p>The Home Page is accessible by every signed in user.</p> */}
-          <Map />
-        { !!users && <UserList users={users} /> }
+          {/* <Map /> */}
+          <Demo />
+        {/* { !!users && <UserList users={users} /> } */}
       </div>
     );
   }
 }
 
-const UserList = ({ users }) =>
-  <div>
-    <h2>List of Usernames of Users</h2>
-    <Map />
-    {Object.keys(users).map(key =>
-      <div key={key}>{users[key].username}</div>
-    )}
-  </div>
+// const UserList = ({ users }) =>
+//   <div>
+//     <h2>List of Usernames of Users</h2>
+//     <Demo />
+//     {Object.keys(users).map(key =>
+//       <div key={key}>{users[key].username}</div>
+//     )}
+//   </div>
 
 const authCondition = (authUser) => !!authUser;
 

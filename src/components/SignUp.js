@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { Link,  withRouter, } from 'react-router-dom';
 
 import './SignUp.css';
-
+import * as firebase from "firebase";
 import { auth, db } from '../firebase';
 import * as routes from '../constants/routes';
 import { FormGroup,Form,Button,Input} from 'reactstrap';
+
+
+const dbRef = firebase.database().ref();
 
 const SignUpPage = ({ history }) =>
   <div>
@@ -44,10 +47,10 @@ class SignUpForm extends Component {
       } = this.props;
       auth.doCreateUserWithEmailAndPassword(email, passwordOne)
         .then(authUser => {
-          db.doCreateUser(authUser.user.uid, username, email)
+          db.doCreateUser(authUser.user.uid, username, email, Phonenum)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
-            this.history.push(routes.LANDING);
+            history.push(routes.HOME);
           })
           .catch(error => {
             this.setState(byPropKey('error', error));

@@ -1,10 +1,10 @@
 import { compose, withProps, lifecycle } from "recompose"
 import React, { Component } from 'react';
+import {Button} from 'reactstrap';
 import _ from 'lodash';
+// import GoogleMaps from './googlemap';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-
-
-const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
+// const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
 
 class Map extends Component {
@@ -72,10 +72,8 @@ class Map extends Component {
                   center: nextCenter,
                   markers: nextMarkers,
                 });
-                // refs.map.fitBounds(bounds);
-                console.log(this.state.center)
-                console.log(refs);
-                {new window.google.maps.LatLng(this.state.center.lat(), this.state.center.lng())}
+                console.log(this.state.center.lat);
+                // <GoogleMaps lat={this.state.center.lat()} lng={this.state.center.lng()} />
               },
             })
           },
@@ -84,49 +82,19 @@ class Map extends Component {
         withGoogleMap
       )(props =>
         <GoogleMap
-          defaultZoom={10}
-          defaultCenter={new window.google.maps.LatLng(this.state.center.lat, this.state.center.lng)}
+          defaultZoom={15}
+          defaultCenter={new window.google.maps.LatLng(this.props.lat, this.props.lng)}
         >
-         
-          <SearchBox
-            ref={props.onSearchBoxMounted}
-            bounds={props.bounds}
-            controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
-            onPlacesChanged={props.onPlacesChanged}
-          >
-            <input
-              type="text"
-              placeholder="Enter Your Location"
-              style={{
-                boxSizing: `border-box`,
-                border: `1px solid transparent`,
-                width: `240px`,
-                height: `32px`,
-                marginTop: `27px`,
-                padding: `0 12px`,
-                borderRadius: `3px`,
-                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                fontSize: `14px`,
-                outline: `none`,
-                textOverflow: `ellipses`,
-              }}
-            />
-          </SearchBox>
-          {props.markers.map((marker, index) =>
-          <Marker key={index} position={marker.position} /> 
-         )}
+         <Marker position={{lat: this.props.lat, lng: this.props.lng }} /> 
         </GoogleMap>
       );
-      
-   
    return(
       <div>
         <MapWithADirectionsRenderer
           containerElement={ <div style={{ height: `800px`, width: '100%' }} /> }
           mapElement={ <div style={{ height: `100%` }} /> }
-          
-        />
-        
+        />        
+        <Button color="primary" size="lg">Book Driver</Button>
       </div>
    );
    }
