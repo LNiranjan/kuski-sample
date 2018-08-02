@@ -19,6 +19,7 @@ class HomePage extends Component {
     db.onceGetUsers().then(snapshot =>
       this.setState(() => ({ users: snapshot.val() }))
     );
+    
   }
 
   render() {
