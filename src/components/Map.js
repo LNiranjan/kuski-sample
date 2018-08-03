@@ -2,19 +2,11 @@ import { compose, withProps, lifecycle } from "recompose"
 import React, { Component } from 'react';
 import {Button} from 'reactstrap';
 import _ from 'lodash';
-// import GoogleMaps from './googlemap';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-// const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 import { db,auth } from '../firebase';
 
 class Map extends Component {
-  state={
-    bounds: null,
-    center: {
-        lat: 17.385, lng: 78.4867
-    },
-    markers: []
-  }
+ 
   book_driver = (event) => {
     db.locationTracking(auth.currentUser().uid, this.props.lat, this.props.lng)
     .then(

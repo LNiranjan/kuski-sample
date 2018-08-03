@@ -11,10 +11,13 @@ import SignInPage from './SignIn';
 import PasswordForgetPage from './PasswordForget';
 import HomePage from './Home';
 import AccountPage from './Account';
+import DriverSignUp from './DriverSignUp';
+
 
 import * as routes from '../constants/routes';
 import withAuthentication from './withAuthentication';
 import { firebase } from '../firebase';
+import DriverSignIn from './DriverSignIn';
 
 class App extends Component {
   constructor(props) {
@@ -63,7 +66,16 @@ class App extends Component {
             exact path={routes.ACCOUNT}
             component={() => <AccountPage />}
           />
+          <Route
+            exact path={routes.DRIVER_SIGNUP}
+            component={() => <DriverSignUp/>}
+          />
+           <Route
+            exact path={routes.DRIVER_SIGNIN}
+            component={() => <DriverSignIn/>}
+          />
         </div>
+        
       </Router>
     );
   }
