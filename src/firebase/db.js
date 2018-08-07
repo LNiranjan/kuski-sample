@@ -20,8 +20,11 @@ export const onceGetUsers = () =>
   db.ref('users').once('value');
 
 // Other Entity APIs ...
-export const locationTracking = (id, lat, lng) =>
+export const locationTracking = (id, lat, lng, book_date, book_time, book_hours) =>
   db.ref(`users/${id}/${new Date().getTime()}`).set({
     lat,
-    lng
+    lng,
+    book_date,
+    book_time,
+    book_hours
   })

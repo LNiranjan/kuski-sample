@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
-import { SignUpLink } from './SignUp';
-import { PasswordForgetLink } from './PasswordForget';
 import { auth } from '../firebase';
 import * as routes from '../constants/routes'
 
@@ -88,4 +86,5 @@ export default withRouter(DriverSignIn);
 
 export {
     DriverSignIn,
+
 };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup,Form,Button,Input} from 'reactstrap';
-import * as firebase from "firebase";
+
 import { auth, db } from '../firebase';
 import * as routes from '../constants/routes';
 import { Link,  withRouter, } from 'react-router-dom';
