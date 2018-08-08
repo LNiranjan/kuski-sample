@@ -1,10 +1,13 @@
-import { compose, withProps } from "recompose"
+import { compose, withProps,lifecycle } from "recompose"
+import _ from "lodash"; 
 import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
 // import _ from 'lodash';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { db,auth } from '../firebase';
 import { FormGroup,Form,Button,Input,Label} from 'reactstrap';
+const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
+
 
 
 
@@ -66,6 +69,9 @@ class Map extends Component {
       book_time === '' ||
       book_date === ''||
       book_hours === '';
+
+      const lat1=this.props.lat;
+      const lng1=this.props.lng;
     const MapWithADirectionsRenderer = compose(
         withProps({
           googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAMCLvyC-CInjCWMcz6suKSjSKwop-h-mg&v=3.exp&libraries=geometry,drawing,places",
@@ -73,14 +79,87 @@ class Map extends Component {
           containerElement: <div style={{ height: `600px` }} />,
           mapElement: <div style={{ height: `100%` }} />,
         }),
+        lifecycle({
+          componentWillMount() {
+            const refs = {}
+      
+            this.setState({
+              bounds: null,
+              center: {
+                lat: lat1, lng: lng1
+              },
+              markers: [],
+              onMapMounted: ref => {
+                refs.map = ref;
+              },
+              onBoundsChanged: () => {
+                this.setState({
+                  bounds: refs.map.getBounds(),
+                  center: refs.map.getCenter(),
+                })
+              },
+              onSearchBoxMounted: ref => {
+                refs.searchBox = ref;
+              },
+              onPlacesChanged: () => {
+                const places = refs.searchBox.getPlaces();
+                const bounds = new window.google.maps.LatLngBounds();
+      
+                places.forEach(place => {
+                  if (place.geometry.viewport) {
+                    bounds.union(place.geometry.viewport)
+                  } else {
+                    bounds.extend(place.geometry.location)
+                  }
+                });
+                const nextMarkers = places.map(place => ({
+                  position: place.geometry.location,
+                }));
+                const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
+      
+                this.setState({
+                  center: nextCenter,
+                  markers: nextMarkers,
+                });
+                // refs.map.fitBounds(bounds);
+              },
+            })
+          },
+        }),
         withScriptjs,
         withGoogleMap
       )(props =>
         <GoogleMap
-          defaultZoom={15}
-          defaultCenter={new window.google.maps.LatLng(this.props.lat, this.props.lng)}
+        ref={props.onMapMounted}
+        defaultZoom={18}
+        center={props.center}
+        onBoundsChanged={props.onBoundsChanged}
+      >
+         <Marker position={props.center}/> 
+         <SearchBox
+          ref={props.onSearchBoxMounted}
+          bounds={props.bounds}
+          controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
+          onPlacesChanged={props.onPlacesChanged}
         >
-         <Marker position={{lat: this.props.lat, lng: this.props.lng }} /> 
+          <input
+            type="text"
+            placeholder="Customized your placeholder"
+            style={{
+              boxSizing: `border-box`,
+              border: `1px solid transparent`,
+              width: `240px`,
+              height: `32px`,
+              marginTop: `27px`,
+              padding: `0 12px`,
+              borderRadius: `3px`,
+              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+              fontSize: `14px`,
+              outline: `none`,
+              textOverflow: `ellipses`,
+            }}
+          />
+        </SearchBox>
         </GoogleMap>
       );
    return(
